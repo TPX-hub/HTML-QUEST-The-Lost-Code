@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>HTML QUEST — THE LOST CODE</title>
+<style>
+:root{color-scheme:dark;--bg:#080c26;--pn:#121842;--p:#7c3aed;--c:#22d3ee;--g:#fbbf24;--tx:#e8ecff;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;background:var(--bg);color:var(--tx);font-family:"Sarabun","Noto Sans Thai",ui-sans-serif,sans-serif;overflow:hidden}
+button{font:inherit;color:var(--tx);background:linear-gradient(#2a2f7a,#171b52);border:2px solid var(--c);border-radius:4px;padding:10px 18px;cursor:pointer;box-shadow:0 3px 0 #0a0d30,0 0 10px rgba(34,211,238,.35);letter-spacing:.05em;transition:transform .08s,box-shadow .15s,filter .15s}
+button:hover:not(:disabled){filter:brightness(1.3);box-shadow:0 3px 0 #0a0d30,0 0 18px var(--c)}
+button:active:not(:disabled){transform:translateY(3px);box-shadow:0 0 8px var(--c)}
+button:disabled{opacity:.35;cursor:not-allowed}button:focus-visible{outline:3px solid var(--g)}
+.scr{position:fixed;inset:0;display:none}.scr.on{display:flex}
+#title{align-items:center;justify-content:center;flex-direction:column}
+#tc{position:absolute;inset:0;width:100%;height:100%}
+.logo{position:relative;text-align:center;margin-bottom:22px;font-family:"Courier New",monospace}
+.logo b{display:block;font-size:clamp(40px,10vw,92px);color:var(--g);letter-spacing:.08em;text-shadow:4px 4px 0 #7c2d12,0 0 28px rgba(251,191,36,.6)}
+.logo span{display:block;font-size:clamp(14px,3.4vw,28px);color:var(--c);letter-spacing:.5em;text-shadow:0 0 16px var(--c)}
+.logo small{display:block;margin-top:8px;color:#c4b5fd}
+.menu{position:relative;display:flex;flex-direction:column;gap:12px;width:min(300px,80vw)}
+.ver{position:absolute;bottom:10px;right:14px;font-size:12px;opacity:.6}
+#create{align-items:center;justify-content:center;background:radial-gradient(#2a1760,#080c26)}
+.box{background:var(--pn);border:3px solid var(--g);border-radius:6px;padding:22px;width:min(480px,92vw);box-shadow:0 0 30px rgba(124,58,237,.6);text-align:center}
+.box input{width:100%;font:inherit;font-size:18px;padding:10px;background:#0a0e30;color:var(--tx);border:2px solid var(--c);border-radius:4px;text-align:center;margin:8px 0 14px}
+.looks{display:flex;gap:10px;justify-content:center;margin-bottom:14px}.looks button{padding:6px}.looks button.sel{border-color:var(--g);box-shadow:0 0 16px var(--g)}
+#game{flex-direction:column}
+#hud{display:flex;gap:14px;align-items:center;padding:8px 12px;background:#0c1038;border-bottom:2px solid var(--c);flex-wrap:wrap;font-size:14px}
+.bar{width:120px;height:12px;background:#000;border:2px solid #556;border-radius:3px;overflow:hidden}.bar i{display:block;height:100%;width:100%;transition:width .5s}
+#hb i{background:#ef4444}#eb i{background:var(--c)}
+#cv{flex:1;position:relative;display:flex;align-items:center;justify-content:center;min-height:0}
+#gc{width:min(100vw,calc((100dvh - 180px)*1.5));aspect-ratio:3/2;height:auto;image-rendering:pixelated;border:3px solid var(--g);background:#000}
+#gc.shake{animation:sh .4s}@keyframes sh{25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
+#qt{position:absolute;top:8px;left:8px;max-width:220px;background:rgba(10,14,48,.85);border:2px solid var(--g);padding:6px 10px;font-size:13px;border-radius:4px}
+#qt b{color:var(--g)}
+#pr{position:absolute;bottom:12px;left:50%;transform:translateX(-50%);background:rgba(10,14,48,.9);border:2px solid var(--c);padding:6px 14px;border-radius:4px;display:none;font-size:14px;white-space:nowrap}
+#pad{display:none;justify-content:space-between;gap:6px;padding:8px;background:#0c1038}#pad button{flex:1;padding:14px 0;touch-action:none;user-select:none}
+@media (hover:none){#pad{display:flex}}#pad.force{display:flex}
+.ov{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(4,6,22,.82);z-index:20}.ov.on{display:flex}
+#md .box{text-align:left;max-height:88dvh;overflow:auto}#md h2{margin:0 0 10px;color:var(--g)}#md .bs{display:flex;gap:10px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+#dlg{position:fixed;left:50%;bottom:calc(14px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);width:min(680px,94vw);background:var(--pn);border:3px solid var(--g);border-radius:6px;padding:14px 18px;display:none;z-index:15;box-shadow:0 0 24px rgba(124,58,237,.7);cursor:pointer}
+#dlg.on{display:block}#dn{color:var(--g);font-weight:bold;margin-bottom:6px}#dt{line-height:1.6}#dlg small{display:block;text-align:right;opacity:.6;margin-top:4px}
+.wsb{width:min(1100px,98vw);height:min(720px,96dvh);background:var(--pn);border:3px solid var(--c);border-radius:6px;display:flex;flex-direction:column;padding:10px;gap:8px}
+.wh{display:flex;gap:12px;align-items:center;justify-content:space-between;color:var(--g)}.wh .bar{width:150px}#bb i{background:#a855f7}
+.wg{flex:1;display:grid;grid-template-columns:1fr 1fr;gap:10px;min-height:0}
+.wl,.wr{display:flex;flex-direction:column;gap:8px;min-height:0}
+#wd{margin:0;font-size:14px;line-height:1.5;white-space:pre-wrap;max-height:30%;overflow:auto}
+#ed{flex:1;min-height:90px;resize:none;background:#070a22;color:#9ef;border:2px solid var(--c);border-radius:4px;padding:8px;font:14px/1.5 "Courier New",monospace}
+.bt{display:flex;gap:6px;flex-wrap:wrap}.bt button{padding:8px 10px;font-size:13px}
+#pv{flex:1;min-height:90px;background:#fff;border:2px solid var(--g);border-radius:4px;width:100%}
+#lg{font-size:13px;max-height:34%;overflow:auto;line-height:1.5}.ok{color:#4ade80}.no{color:#fca5a5}
+@media(max-width:820px){.wg{grid-template-columns:1fr;grid-template-rows:1.2fr 1fr}#hud{font-size:12px;gap:8px}.bar{width:80px}}
+#toast{position:fixed;top:30%;left:50%;transform:translate(-50%,0);background:var(--g);color:#2a1700;font-weight:bold;padding:12px 22px;border-radius:6px;z-index:40;display:none;text-align:center;box-shadow:0 0 30px var(--g)}
+#toast.on{display:block;animation:tp 2.4s forwards}@keyframes tp{0%{opacity:0;transform:translate(-50%,20px)}15%,80%{opacity:1;transform:translate(-50%,0)}100%{opacity:0;transform:translate(-50%,-30px)}}
+#end iframe{width:100%;height:150px;background:#fff;border:2px solid var(--g);border-radius:4px}
+@media(prefers-reduced-motion:reduce){*{animation:none!important}}
+</style></head><body>
+
+<div id="title" class="scr on"><canvas id="tc"></canvas>
+<div class="logo"><b>HTML QUEST</b><span>THE LOST CODE</span><small>ผจญภัยกู้คืนรหัสแห่งอาณาจักร</small></div>
+<div class="menu"><button id="bNew">NEW GAME</button><button id="bCont">CONTINUE</button><button id="bHow">HOW TO PLAY</button><button id="bSet">SETTINGS</button></div>
+<div class="ver">v0.1 mini</div></div>
+
+<div id="create" class="scr"><div class="box"><h2 style="margin:0;color:var(--g)">สร้างนักผจญภัย</h2>
+<input id="nm" maxlength="12" placeholder="ชื่อตัวละคร" aria-label="ชื่อตัวละคร">
+<div class="looks" id="looks"></div><canvas id="pvw" width="96" height="96" style="image-rendering:pixelated;margin-bottom:12px"></canvas><br>
+<button id="bStart">START ADVENTURE</button> <button id="bBack">BACK</button></div></div>
+
+<div id="game" class="scr">
+<div id="hud"><b id="hn"></b><span id="hl"></span><span>HP</span><div class="bar" id="hb"><i></i></div><span>EXP</span><div class="bar" id="eb"><i></i></div><span id="ha" style="margin-left:auto;color:var(--c)"></span></div>
+<div id="cv"><canvas id="gc" width="480" height="320"></canvas><div id="qt"></div><div id="pr"></div></div>
+<div id="pad"><button data-k="left">◀</button><button data-k="up">▲</button><button data-k="down">▼</button><button data-k="right">▶</button><button data-k="e">E</button><button data-k="i">I</button><button data-k="j">J</button></div></div>
+
+<div id="dlg"><div id="dn"></div><div id="dt"></div><small>กด E / แตะ เพื่อไปต่อ</small></div>
+<div id="md" class="ov"><div class="box" id="mb"></div></div>
+<div id="toast"></div>
+
+<div id="ws" class="ov"><div class="wsb">
+<div class="wh"><b id="wt"></b><div class="bar" id="bb"><i></i></div><button id="wx" style="padding:4px 12px">✕</button></div>
+<div class="wg"><div class="wl"><p id="wd"></p><textarea id="ed" spellcheck="false" aria-label="Code editor"></textarea>
+<div class="bt"><button id="bRun">RUN</button><button id="bChk">CHECK</button><button id="bRes">RESET</button><button id="bHint">HINT</button><button id="bEx">SHOW EXAMPLE</button></div></div>
+<div class="wr"><iframe id="pv" sandbox="" title="Preview"></iframe><div id="lg"></div></div></div></div></div>
+
+<div id="end" class="ov"><div class="box" style="text-align:left;max-height:92dvh;overflow:auto"><h2 style="color:var(--g);margin:0 0 8px">อาณาจักรกลับมาสว่างไสว!</h2>
+<p>Void Guardian พ่ายแพ้ Core of Structure ถูกฟื้นฟูแล้ว คุณเรียนรู้: โครงสร้างเอกสาร HTML, h1/p, ul/ol/li, a/href, img/src/alt และการตรวจแท็กเปิด-ปิด</p>
+<p>ผลงานของคุณ:</p><iframe id="ef" sandbox="" title="ผลงาน"></iframe>
+<div style="display:flex;gap:10px;margin-top:14px;flex-wrap:wrap"><button id="eExp">สำรวจต่อ</button><button id="eTi">กลับหน้าปก</button></div></div></div>
+
+<script>
+const $=q=>document.querySelector(q),KEY='htmlquest_v1',T=32,W=15,H=10;
+const LOOKS=[{h:'#6b3a1e',t:'#2f7de1'},{h:'#e8d36a',t:'#c0392b'},{h:'#222',t:'#27ae60'}];
+const MAPS=[
+["TTTTTTTTTTTTTTT","T.............T","T.HH.......HH.T","T.HH...B...HH.T","T.............T","T.............E","T..T.......T..T","T.............T","T.............T","TTTTTTTTTTTTTTT"],
+["TTTTTTTTTTTTTTT","T.............T","T.HH.......HH.T","T.............T","T.....HHH.....T","E.............E","T.............T","T..HH.....HH..T","T.............T","TTTTTTTTTTTTTTT"],
+["TTTTTTTTTTTTTTT","T.............T","T..HH.....HH..T","T.............T","T.............T","E.............T","T.............T","T..HH.....HH..T","T.............T","TTTTTTTTTTTTTTT"]];
+const TH=[{a:'#3c8a3c',b:'#357d35',d:'#4fa04f',n:'CODE VILLAGE'},{a:'#26346e',b:'#2b3b7a',d:'#4a5cc0',n:'CRYSTAL LIBRARY'},{a:'#1a1030',b:'#20143a',d:'#3a1a5e',n:'VOID CASTLE'}];
+const EX=[[{x:14,y:5,to:1,sx:1,sy:5,need:'q1'}],[{x:0,y:5,to:0,sx:13,sy:5},{x:14,y:5,to:2,sx:1,sy:5,need:'q2'}],[{x:0,y:5,to:1,sx:13,sy:5}]];
+const NPCS=[[{n:'ผู้ดูแลหมู่บ้าน',x:9,y:5,id:'q1',c:'#d9a441',hat:'#8b5a2b'}],[{n:'บรรณารักษ์',x:7,y:5,id:'q2',c:'#a78bfa',hat:'#22d3ee'}],[{n:'Void Guardian',x:11,y:5,id:'boss'}]];
+const bal=(s,t)=>t.every(k=>(s.match(new RegExp('<'+k+'[\\s>]','gi'))||[]).length===(s.match(new RegExp('</'+k+'\\s*>','gi'))||[]).length);
+const tx=e=>!!e&&e.textContent.trim().length>0;
+const q_=(d,sel)=>d.querySelectorAll(sel);
+const full=(d,s)=>[[/<!doctype html/i.test(s),'มี <!DOCTYPE html>'],[/<html[\s>]/i.test(s)&&/<head[\s>]/i.test(s)&&/<body[\s>]/i.test(s),'มีแท็ก html, head, body ในโค้ด'],[(d.title||'').trim().length>0,'มี <title> ที่มีข้อความ'],[bal(s,['html','head','body','title']),'เปิด-ปิด html/head/body/title ครบ']];
+const TASKS={
+q1:{t:'ซ่อมป้ายประกาศ',exp:60,d:'โจทย์: ป้ายประกาศสูญเสียหัวข้อและข้อความ\nเขียน <h1> หัวข้อ และ <p> ข้อความอย่างน้อย 1 ย่อหน้า แล้วกด RUN เพื่อดูผล จากนั้นกด CHECK',
+ h:'ใช้ <h1>หัวข้อ</h1> และ <p>ข้อความ</p> อย่าลืมแท็กปิดที่มี / และเขียนข้อความระหว่างแท็ก',
+ ex:'<h1>ประกาศจากหมู่บ้าน</h1>\n<p>ยินดีต้อนรับสู่ Code Village</p>',
+ chk:(d,s)=>[[tx(d.querySelector('h1')),'มี <h1> ที่มีข้อความ'],[tx(d.querySelector('p')),'มี <p> ที่มีข้อความ'],[bal(s,['h1','p']),'แท็ก h1 และ p เปิด-ปิดครบ']]},
+q2:{t:'ฟื้นฟูหนังสือเวทมนตร์',exp:80,d:'โจทย์: สร้างรายการหนังสืออย่างน้อย 2 เล่มด้วย <ul> และ <li>, มีลิงก์ <a href="..."> ที่มีข้อความ, และมีรูป <img src="..." alt="คำอธิบาย">\n(รูปภายนอกอาจไม่แสดงในพรีวิว แต่ alt จะแสดงแทน)',
+ h:'<ul> ต้องมี <li> อยู่ข้างใน ลิงก์ใช้ <a href="https://...">ข้อความ</a> รูปต้องมีทั้ง src และ alt ที่ไม่ว่าง',
+ ex:'<ul>\n  <li>คัมภีร์ HTML</li>\n  <li><a href="https://developer.mozilla.org">คู่มือ MDN</a></li>\n</ul>\n<img src="book.png" alt="ปกหนังสือเวทมนตร์">',
+ chk:(d,s)=>[[q_(d,'ul>li,ol>li').length>=2,'มี ul/ol ที่มี li อย่างน้อย 2 รายการ'],[[...q_(d,'a[href]')].some(a=>a.getAttribute('href').trim()&&tx(a)),'มี <a> ที่มี href และข้อความ'],[[...q_(d,'img[src]')].some(i=>(i.getAttribute('alt')||'').trim()),'มี <img> ที่มี src และ alt'],[bal(s,['ul','li','a']),'ul/li/a เปิด-ปิดครบ']]},
+b1:{t:'ช่วงที่ 1 — โครงสร้างพื้นฐาน',exp:50,dmg:34,d:'โจทย์: เขียนโครงสร้างเอกสารเต็ม: <!DOCTYPE html>, <html>, <head> ที่มี <title>, และ <body> ที่มี <h1>',
+ h:'เริ่มด้วย <!DOCTYPE html> แล้วครอบด้วย <html> ข้างในมี <head><title>..</title></head> และ <body><h1>..</h1></body>',
+ ex:'<!DOCTYPE html>\n<html>\n<head>\n  <title>Core of Structure</title>\n</head>\n<body>\n  <h1>Core of Structure</h1>\n</body>\n</html>',
+ chk:(d,s)=>[...full(d,s),[tx(d.body&&d.body.querySelector('h1')),'มี <h1> ที่มีข้อความใน body']]},
+b2:{t:'ช่วงที่ 2 — รายการและลิงก์',exp:50,dmg:33,d:'โจทย์: สร้าง <ul> ที่มี <li> อย่างน้อย 3 รายการ โดยมี <a href> ใน li อย่างน้อย 2 รายการ',
+ h:'<ul><li><a href="https://...">ข้อความ</a></li> ...</ul> ทำซ้ำให้ครบ 3 li และมีลิงก์ใน li 2 อัน',
+ ex:'<ul>\n  <li><a href="https://developer.mozilla.org">MDN</a></li>\n  <li><a href="https://w3.org">W3C</a></li>\n  <li>บันทึกของฉัน</li>\n</ul>',
+ chk:(d,s)=>[[q_(d,'ul>li').length>=3,'มี ul ที่มี li อย่างน้อย 3 รายการ'],[[...q_(d,'ul>li')].filter(l=>l.querySelector('a[href]')).length>=2,'มี a[href] ใน li อย่างน้อย 2 รายการ'],[bal(s,['ul','li','a']),'ul/li/a เปิด-ปิดครบ']]},
+b3:{t:'ช่วงที่ 3 — หน้าเว็บสมบูรณ์',exp:50,dmg:33,d:'โจทย์สุดท้าย: สร้างหน้าเว็บเต็มที่มี DOCTYPE/html/head/title/body, <h1>, <p>, <ul> ที่มี li อย่างน้อย 2 รายการ, <a href> และ <img src alt>',
+ h:'รวมทุกอย่าง: โครงสร้างเอกสาร + h1 + p + ul/li + a[href] + img[alt] อย่าลืมปิดแท็กทุกตัว',
+ ex:'<!DOCTYPE html>\n<html>\n<head>\n  <title>Web Kingdom</title>\n</head>\n<body>\n  <h1>Web Kingdom</h1>\n  <p>อาณาจักรกลับมาแล้ว</p>\n  <ul>\n    <li>หมู่บ้าน</li>\n    <li><a href="https://developer.mozilla.org">ห้องสมุด</a></li>\n  </ul>\n  <img src="castle.png" alt="ปราสาท">\n</body>\n</html>',
+ chk:(d,s)=>[...full(d,s),[tx(d.querySelector('h1')),'มี <h1>'],[tx(d.querySelector('p')),'มี <p>'],[q_(d,'ul>li').length>=2,'มี ul>li อย่างน้อย 2'],[q_(d,'a[href]').length>=1,'มี a[href]'],[[...q_(d,'img[src]')].some(i=>(i.getAttribute('alt')||'').trim()),'มี img ที่มี alt'],[bal(s,['h1','p','ul','li','a']),'แท็กหลักเปิด-ปิดครบ']]}};
+const NOTE='\nหมายเหตุ: HTML Parser ของเบราว์เซอร์ซ่อมแท็กที่ลืมปิดให้เอง ระบบจึงตรวจแท็กเปิด-ปิดจากซอร์สที่คุณพิมพ์เพิ่มเติมด้วย';
+let s=null,A=0,px=0,py=0,dir=1,fr=0,mv=false,keys={},cur=null,dq=[],dcb=null,sel=0,tm=0,last=0;
+const KM={arrowleft:'left',a:'left',arrowright:'right',d:'right',arrowup:'up',w:'up',arrowdown:'down',s:'down'};
+const busy=()=>!!document.querySelector('.ov.on,#dlg.on');
+const show=id=>{['title','create','game'].forEach(x=>$('#'+x).classList.toggle('on',x==id))};
+const save=()=>{try{s.area=A;localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}};
+const lv=()=>1+Math.floor(s.exp/100);
+const toast=m=>{const t=$('#toast');t.textContent=m;t.classList.remove('on');void t.offsetWidth;t.classList.add('on')};
+function modal(html,btns){$('#mb').innerHTML=html+'<div class="bs"></div>';btns.forEach(b=>{const e=document.createElement('button');e.textContent=b[0];e.onclick=()=>{$('#md').classList.remove('on');b[1]&&b[1]()};$('#mb .bs').appendChild(e)});$('#md').classList.add('on')}
+const closeM=()=>$('#md').classList.remove('on');
+/* ---------- title ---------- */
+const tc=$('#tc'),tcx=tc.getContext('2d'),stars=[],parts=[];
+const rs=()=>{tc.width=innerWidth;tc.height=innerHeight};addEventListener('resize',rs);rs();
+for(let i=0;i<80;i++)stars.push([Math.random(),Math.random()*.6,Math.random()*6]);
+for(let i=0;i<60;i++)parts.push([Math.random(),Math.random(),.02+Math.random()*.05,['#22d3ee','#a78bfa','#fbbf24'][i%3],1+Math.random()*2]);
+function drawTitle(t){const w=tc.width,h=tc.height,c=tcx,g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,'#070a24');g.addColorStop(.7,'#2a1760');g.addColorStop(1,'#0f2a5a');c.fillStyle=g;c.fillRect(0,0,w,h);
+stars.forEach(a=>{c.globalAlpha=.3+.7*Math.abs(Math.sin(t/700+a[2]));c.fillStyle='#fff';c.fillRect(a[0]*w,a[1]*h,2,2)});c.globalAlpha=1;
+c.fillStyle='rgba(34,211,238,.15)';c.beginPath();c.arc(w*.18,h*.2,h*.1,0,7);c.fill();c.fillStyle='#bff';c.beginPath();c.arc(w*.18,h*.2,h*.05,0,7);c.fill();
+c.fillStyle='#14224f';c.beginPath();c.moveTo(0,h);for(let x=0;x<=w;x+=20)c.lineTo(x,h*.78+Math.sin(x/130)*h*.04);c.lineTo(w,h);c.fill();
+const u=h/100,cx=w*.75,gy=h*.84;c.fillStyle='#0a0f2e';
+[[-14,0,28,20],[-22,0,9,34],[13,0,9,34],[-5,0,10,44]].forEach(r=>{c.fillRect(cx+r[0]*u,gy-(r[1]+r[3])*u,r[2]*u,r[3]*u);if(r[3]>20){c.beginPath();c.moveTo(cx+(r[0]-1)*u,gy-r[3]*u);c.lineTo(cx+(r[0]+r[2]/2)*u,gy-(r[3]+12)*u);c.lineTo(cx+(r[0]+r[2]+1)*u,gy-r[3]*u);c.fill()}});
+c.fillStyle='#fbbf24';[[-3,28],[-20,22],[15,22],[-8,8],[4,8]].forEach((p,i)=>{c.globalAlpha=.6+.4*Math.sin(t/500+i);c.fillRect(cx+p[0]*u,gy-p[1]*u,2*u,3*u)});c.globalAlpha=1;
+c.fillStyle='#0b1236';c.beginPath();c.moveTo(0,h);for(let x=0;x<=w;x+=20)c.lineTo(x,h*.9+Math.sin(x/90+1)*h*.03);c.lineTo(w,h);c.fill();
+parts.forEach(p=>{const y=(1-((p[1]+t*p[2]/1000)%1))*h;c.fillStyle=p[3];c.globalAlpha=.7;c.fillRect(p[0]*w+Math.sin(t/900+p[1]*9)*12,y,p[4],p[4]);c.globalAlpha=1})}
+/* ---------- sprites ---------- */
+function person(c,x,y,hair,tun,f,hat){c.fillStyle='rgba(0,0,0,.35)';c.fillRect(x+8,y+27,16,4);const o=f?1:0;c.fillStyle='#2a2a40';c.fillRect(x+10,y+22+o,5,6-o);c.fillRect(x+17,y+23-o,5,5+o);c.fillStyle=tun;c.fillRect(x+8,y+12,16,11);c.fillStyle='#f1c27d';c.fillRect(x+9,y+3,14,10);c.fillStyle=hair;c.fillRect(x+8,y+1,16,5);c.fillRect(x+8,y+4,3,6);c.fillStyle='#111';c.fillRect(x+13,y+8,2,2);c.fillRect(x+19,y+8,2,2);if(hat){c.fillStyle=hat;c.fillRect(x+6,y-2,20,4);c.fillRect(x+10,y-8,12,7)}}
+function bossSpr(c,x,y,t){y+=Math.sin(t/400)*4;c.fillStyle='rgba(124,58,237,.35)';c.beginPath();c.arc(x+32,y+34,50,0,7);c.fill();c.fillStyle='#1a0b33';c.fillRect(x+8,y+14,48,44);c.fillRect(x+16,y+4,32,14);c.fillRect(x,y+30,10,22);c.fillRect(x+54,y+30,10,22);c.fillStyle='#7c3aed';c.fillRect(x+12,y,6,10);c.fillRect(x+46,y,6,10);c.fillStyle='#22d3ee';c.fillRect(x+20,y+22,8,6);c.fillRect(x+36,y+22,8,6);c.fillRect(x+26,y+40,12,3)}
+const pvc=$('#pvw').getContext('2d');
+function drawPrev(){pvc.clearRect(0,0,96,96);pvc.fillStyle='#1b2a6e';pvc.fillRect(0,0,96,96);pvc.save();pvc.scale(2.5,2.5);person(pvc,4,4,LOOKS[sel].h,LOOKS[sel].t,0);pvc.restore()}
+function buildLooks(){const L=$('#looks');L.innerHTML='';LOOKS.forEach((l,i)=>{const b=document.createElement('button'),cv=document.createElement('canvas');cv.width=cv.height=40;const c=cv.getContext('2d');c.scale(1.1,1.1);person(c,2,4,l.h,l.t,0);b.appendChild(cv);b.className=i==sel?'sel':'';b.setAttribute('aria-label','รูปลักษณ์ '+(i+1));b.onclick=()=>{sel=i;buildLooks();drawPrev()};L.appendChild(b)})}
+/* ---------- world ---------- */
+const ex=()=>EX[A];const locked=e=>e.need&&!s.done[e.need];
+const exAt=(x,y)=>ex().find(e=>e.x==x&&e.y==y);
+const npcAlive=n=>n.id!='boss'||s.boss>0;
+function solid(x,y){if(x<0||y<0||x>=W||y>=H)return true;const ch=MAPS[A][y][x];if('THB'.includes(ch))return true;if(ch=='E'){const e=exAt(x,y);return !e||locked(e)}return NPCS[A].some(n=>npcAlive(n)&&n.x==x&&n.y==y)}
+const can=(nx,ny)=>[[9,17],[23,17],[9,30],[23,30]].every(o=>!solid(Math.floor((nx+o[0])/T),Math.floor((ny+o[1])/T)));
+function enter(a,sx,sy){A=a;px=sx*T;py=sy*T;$('#cv').dataset.a=a;hud();save()}
+function hud(){$('#hn').textContent=s.name;$('#hl').textContent='Lv.'+lv();$('#hb i').style.width=s.hp+'%';$('#eb i').style.width=(s.exp%100)+'%';$('#ha').textContent=TH[A].n;
+const D=s.done;let m;if(!D.q1)m=s.acc.q1?'ซ่อมป้ายประกาศ: เขียน h1 + p':'พูดคุยกับผู้ดูแลหมู่บ้าน';else if(!D.q2)m=s.acc.q2?'ฟื้นฟูหนังสือ: ul/li, a, img':(A<1?'ไปห้องสมุดทางตะวันออก':'พูดคุยกับบรรณารักษ์');else if(s.boss>0)m='เอาชนะ Void Guardian ('+(['b1','b2','b3'].filter(k=>D[k]).length)+'/3)';else m='ฟื้นฟูอาณาจักรสำเร็จ!';
+$('#qt').innerHTML='<b>ภารกิจ</b><br>'+m;$('#gc').style.filter=s.win?'brightness(1.35) saturate(1.25)':''}
+function drawMap(c,t){const th=TH[A];for(let y=0;y<H;y++)for(let x=0;x<W;x++){const ch=MAPS[A][y][x],X=x*T,Y=y*T;c.fillStyle=(x+y)&1?th.a:th.b;c.fillRect(X,Y,T,T);if((x*7+y*13)%5==0){c.fillStyle=th.d;c.fillRect(X+6,Y+20,4,3)}
+if(ch=='T'){if(A==0){c.fillStyle='#5a3a1a';c.fillRect(X+13,Y+18,6,14);c.fillStyle='#1f6a2a';c.fillRect(X+4,Y+4,24,18);c.fillStyle='#2e8b3a';c.fillRect(X+8,Y+2,16,10)}else if(A==1){c.fillStyle='#4a2f5e';c.fillRect(X,Y,T,T);for(let i=0;i<5;i++){c.fillStyle=['#22d3ee','#a78bfa','#fbbf24','#f472b6'][(i+x)%4];c.fillRect(X+3+i*5,Y+3,4,11);c.fillRect(X+3+i*5,Y+18,4,11)}}else{c.fillStyle='#2a1450';c.fillRect(X,Y,T,T);c.fillStyle='#3a1a5e';c.fillRect(X,Y+15,T,2);c.fillRect(X+15,Y,2,15);c.fillRect(X+7,Y+17,2,15);if((x+y)%4==0){c.fillStyle='#22d3ee';c.fillRect(X+10,Y+6,2,6)}}}
+else if(ch=='H'){if(A==0){const top=MAPS[A][y-1][x]!='H';c.fillStyle=top?'#a23b3b':'#8b5a2b';c.fillRect(X,Y,T,T);c.fillStyle=top?'#c04a4a':'#ffd36b';top?c.fillRect(X,Y+8,T,4):c.fillRect(X+10,Y+8,12,10)}else{const g=A==1?(s.done.q2?1:.35):.6+.3*Math.sin(t/300+x);c.fillStyle=(A==1?'rgba(34,211,238,':'rgba(168,85,247,')+(.35*g)+')';c.beginPath();c.arc(X+16,Y+16,15,0,7);c.fill();c.globalAlpha=Math.min(1,.4+g);c.fillStyle=A==1?'#7ef':'#c084fc';c.beginPath();c.moveTo(X+16,Y+3);c.lineTo(X+26,Y+16);c.lineTo(X+16,Y+29);c.lineTo(X+6,Y+16);c.fill();c.globalAlpha=1}}
+else if(ch=='B'){c.fillStyle='#5a3a1a';c.fillRect(X+14,Y+16,4,16);if(s.done.q1){c.fillStyle='#d9a441';c.fillRect(X+2,Y+2,28,18);c.fillStyle='#6b3a1e';c.fillRect(X+6,Y+6,20,3);c.fillRect(X+6,Y+12,14,2)}else{c.fillStyle='#3a2a20';c.fillRect(X+3,Y+4,26,16);c.fillStyle='#000';c.fillRect(X+10,Y+4,2,16)}}
+else if(ch=='E'){const e=exAt(x,y),lk=e&&locked(e);c.fillStyle='#fbbf24';c.fillRect(X+2,Y,28,T);c.fillStyle=lk?'#3a2a4a':'rgba(34,211,238,'+(.6+.3*Math.sin(t/250))+')';c.fillRect(X+5,Y+3,22,26)}}}
+function draw(t){const c=$('#gc').getContext('2d');drawMap(c,t);const L=[];NPCS[A].forEach(n=>npcAlive(n)&&L.push([n.y*T,()=>{if(n.id=='boss')bossSpr(c,n.x*T-16,n.y*T-36,t);else person(c,n.x*T,n.y*T,'#ddd',n.c,0,n.hat);const open=n.id=='boss'?true:!s.done[n.id];if(open&&(n.id!='q2'||true)){c.fillStyle='#fbbf24';c.font='bold 16px monospace';c.fillText('!',n.x*T+13,n.y*T-(n.id=='boss'?42:10)+Math.sin(t/200)*3)}}]));
+L.push([py,()=>person(c,px,py,LOOKS[s.look].h,LOOKS[s.look].t,mv&&fr)]);L.sort((a,b)=>a[0]-b[0]).forEach(l=>l[1]());
+if(A==2&&s.boss>0){c.fillStyle='rgba(0,0,0,.4)';c.fillRect(0,0,480,6);c.fillStyle='#a855f7';c.fillRect(0,0,480*s.boss/100,6)}}
+function nearNpc(){const cx=px+16,cy=py+20;return NPCS[A].find(n=>npcAlive(n)&&Math.hypot(n.x*T+16-cx,n.y*T+16-cy)<56)}
+function nearLock(){const cx=px+16,cy=py+20;return ex().find(e=>locked(e)&&Math.hypot(e.x*T+16-cx,e.y*T+16-cy)<56)}
+function loop(t){const dt=Math.min(50,t-(last||t));last=t;if($('#title').classList.contains('on'))drawTitle(t);
+if($('#game').classList.contains('on')&&s){if(!busy()){const dx=(keys.right?1:0)-(keys.left?1:0),dy=(keys.down?1:0)-(keys.up?1:0);mv=!!(dx||dy);if(mv){const sp=(dx&&dy?.7:1)*105*dt/1000;if(dx)dir=dx;if(dx&&can(px+dx*sp,py))px+=dx*sp;if(dy&&can(px,py+dy*sp))py+=dy*sp;fr=Math.floor(t/150)%2;const e=exAt(Math.floor((px+16)/T),Math.floor((py+22)/T));if(e&&!locked(e)){enter(e.to,e.sx,e.sy)}}}else mv=false;
+draw(t);const p=$('#pr'),n=!busy()&&nearNpc(),l=!busy()&&!n&&nearLock();p.style.display=n||l?'block':'none';p.textContent=n?'กด E เพื่อพูดคุย':(l?'ประตูถูกล็อก — ทำภารกิจก่อน':'')}
+requestAnimationFrame(loop)}
+/* ---------- dialog ---------- */
+function say(n,lines,cb){dq=[...lines];dcb=cb;$('#dn').textContent=n;dnext()}
+function dnext(){if(!dq.length){$('#dlg').classList.remove('on');const f=dcb;dcb=null;f&&f();return}$('#dlg').classList.add('on');$('#dt').textContent=dq.shift()}
+function talk(n){const D=s.done;
+if(n.id=='q1'){if(D.q1)return say(n.n,['ขอบคุณมาก ป้ายประกาศกลับมาสมบูรณ์แล้ว! ประตูทางตะวันออกเปิดให้เจ้าแล้ว ไปที่ Crystal Library เถิด']);
+const first=!s.acc.q1;s.acc.q1=1;hud();save();say(n.n,first?['นักผจญภัยเอ๋ย ป้ายประกาศของเราสูญเสียหัวข้อและข้อความไปแล้ว เจ้าช่วยฟื้นฟูมันด้วยพลังแห่ง HTML ได้หรือไม่?','HTML ใช้แท็ก เช่น <h1>หัวข้อ</h1> และ <p>ข้อความ</p> แท็กพร้อมเนื้อหาข้างในเรียกว่า Element ลองใช้ Ancient Editor ดูสิ']:['ลองเขียนหัวข้อและข้อความอีกครั้งนะ'],()=>openWS('q1'))}
+else if(n.id=='q2'){if(D.q2)return say(n.n,['หนังสือกลับมามีชีวิตแล้ว! กุญแจปราสาทอยู่กับเจ้า ไปทางตะวันออกสู่ Void Castle ได้เลย']);
+const first=!s.acc.q2;s.acc.q2=1;hud();save();say(n.n,first?['ชู่ว... ข้อมูลในหนังสือเวทมนตร์หายไปหมด ช่วยสร้างรายการหนังสือด้วย <ul> กับ <li> ใส่ลิงก์ <a href> และรูป <img src alt> ด้วยนะ']:['ลองใหม่อีกครั้ง ฉันเชื่อในตัวเจ้า'],()=>openWS('q2'))}
+else{const id='b'+(['b1','b2','b3'].filter(k=>D[k]).length+1);say(n.n,s.acc.boss?['ยังสู้อยู่อีกหรือ? แสดงโค้ดของเจ้ามา!']:['ฮ่า ๆ ๆ เจ้าคิดจะฟื้นฟู Core of Structure ด้วยโค้ดกระจอก ๆ หรือ? พิสูจน์สิ!'],()=>{s.acc.boss=1;openWS(id)})}}
+/* ---------- workshop ---------- */
+const STY='<style>body{font-family:sans-serif;color:#222;background:#fff;padding:8px}</style>';
+function openWS(id){cur=id;const k=TASKS[id];$('#wt').textContent=k.t;$('#wd').textContent=k.d+NOTE;$('#ed').value=s.html[id]||'';$('#lg').innerHTML='';$('#bb').style.display=id[0]=='b'?'block':'none';$('#bb i').style.width=s.boss+'%';$('#ws').classList.add('on');run();setTimeout(()=>$('#ed').focus(),50)}
+const run=()=>{$('#pv').srcdoc=STY+$('#ed').value};
+const closeWS=()=>$('#ws').classList.remove('on');
+function check(){run();const src=$('#ed').value,d=new DOMParser().parseFromString(src,'text/html'),k=TASKS[cur],r=k.chk(d,src),ok=r.every(x=>x[0]);
+$('#lg').innerHTML=r.map(x=>'<div class="'+(x[0]?'ok':'no')+'">'+(x[0]?'✔ ':'✘ ')+x[1]+'</div>').join('')+(ok?'':'<div>ยังไม่ผ่าน — แก้โค้ดแล้วลองใหม่ หรือกด HINT</div>');
+if(!ok){if(cur[0]=='b'){s.hp=Math.max(1,s.hp-8);hud();$('#gc').classList.add('shake');setTimeout(()=>$('#gc').classList.remove('shake'),400)}return}
+if(s.done[cur]){$('#lg').innerHTML+='<div class="ok">ภารกิจนี้สำเร็จแล้ว (ไม่ได้รับ EXP ซ้ำ)</div>';return}
+const old=lv();s.done[cur]=1;s.html[cur]=src;s.exp+=k.exp;s.hp=100;let msg='★ สำเร็จ! +'+k.exp+' EXP';
+if(cur=='q1')msg+=' · ประตูไป Crystal Library เปิดแล้ว';if(cur=='q2'){s.items.push('กุญแจปราสาท');msg+=' · ได้รับกุญแจปราสาท'}
+if(cur[0]=='b'){s.boss=Math.max(0,s.boss-k.dmg);$('#bb i').style.width=s.boss+'%';msg+=' · Void Guardian เสียหาย '+k.dmg;if(s.boss<=0)s.items.push('Core of Structure')}
+if(lv()>old)msg+=' · LEVEL UP!';save();hud();toast(msg);const id=cur;
+setTimeout(()=>{closeWS();if(id=='q1')say('ผู้ดูแลหมู่บ้าน',['ยอดเยี่ยม! ป้ายประกาศกลับมาแล้ว ประตูไป Crystal Library เปิดให้เจ้า']);else if(id=='q2')say('บรรณารักษ์',['หนังสือกลับมามีข้อมูลแล้ว! รับกุญแจปราสาทไปเถิด']);else if(s.boss<=0)ending();else say('Void Guardian',['อึก...! โค้ดนั่น... เจ้ายังไม่ชนะข้าหรอก! (พูดคุยกับข้าอีกครั้งเพื่อสู้ต่อ)'])},1500)}
+function ending(){s.win=true;save();hud();$('#ef').srcdoc=STY+(s.html.b3||'');$('#end').classList.add('on')}
+/* ---------- menus ---------- */
+function loadSave(){let r;try{r=localStorage.getItem(KEY)}catch(e){}return r}
+function refreshCont(){$('#bCont').disabled=!loadSave()}
+function begin(){show('game');hud();enter(A,Math.floor(px/T)||1,Math.floor(py/T)||1)}
+function startNew(){const nm=$('#nm').value.trim()||'Hero';s={name:nm,look:sel,exp:0,hp:100,boss:100,done:{},acc:{},items:['Ancient Editor'],html:{},win:false};A=0;px=3*T;py=7*T;save();show('game');hud();
+modal('<h2>บทนำ</h2><p>อาณาจักร Web Kingdom เคยสมบูรณ์แบบ จนกระทั่ง Void Guardian ขโมย Core of Structure ไป ป้าย หนังสือ และลิงก์ต่างพังทลาย</p><p>'+nm.replace(/</g,'&lt;')+' นักผจญภัยฝึกหัด! ด้วย Ancient Editor เจ้าจะฟื้นฟูโครงสร้างของโลกได้</p>',[['เริ่มผจญภัย',()=>{}]])}
+$('#bNew').onclick=()=>{const go=()=>{$('#nm').value='';sel=0;buildLooks();drawPrev();show('create')};loadSave()?modal('<h2>เริ่มเกมใหม่?</h2><p>มีเซฟเดิมอยู่ การเริ่มใหม่จะเขียนทับข้อมูลเก่าเมื่อกด START ADVENTURE</p>',[['ยืนยัน',go],['ยกเลิก']]):go()};
+$('#bBack').onclick=()=>show('title');$('#bStart').onclick=startNew;
+$('#bCont').onclick=()=>{try{const o=JSON.parse(loadSave());if(!o||typeof o.name!='string'||typeof o.exp!='number'||!o.done||!LOOKS[o.look])throw 0;s=o;s.items=s.items||[];s.acc=s.acc||{};s.html=s.html||{};A=Math.min(2,Math.max(0,s.area||0));px=Math.floor(px/T)||1;enter(A,A==2||A==1?1:3,A==0?7:5);show('game')}catch(e){modal('<h2>เซฟเสียหาย</h2><p>อ่านข้อมูลเซฟไม่ได้ ระบบยังไม่ลบข้อมูลเดิม คุณสามารถเริ่มเกมใหม่ได้</p>',[['ตกลง']])}};
+$('#bHow').onclick=()=>modal('<h2>HOW TO PLAY</h2><p>เดิน: WASD / ลูกศร · คุย: E · Inventory: I · Journal: J · ปิดหน้าต่าง: Esc<br>บนมือถือใช้ปุ่มด้านล่างจอ</p><p>คุยกับ NPC เพื่อรับภารกิจ เขียน HTML ใน Code Workshop แล้วกด RUN ดูผล และ CHECK เพื่อส่งตรวจ ผ่านเกณฑ์จะได้ EXP และปลดล็อกประตู ที่ Void Castle โค้ดที่ผ่านจะสร้างความเสียหายให้บอส</p>',[['ปิด']]);
+$('#bSet').onclick=()=>modal('<h2>SETTINGS</h2><p>ตั้งค่าปุ่มสัมผัสและจัดการเซฟ</p>',[['สลับปุ่มสัมผัส',()=>$('#pad').classList.toggle('force')],['ลบเซฟ',()=>modal('<h2>ลบเซฟ?</h2><p>ลบแล้วกู้คืนไม่ได้</p>',[['ลบ',()=>{try{localStorage.removeItem(KEY)}catch(e){}refreshCont()}],['ยกเลิก']])],['ปิด']]);
+function panel(k){if(k=='i')modal('<h2>Inventory</h2><p>'+s.items.map(i=>'• '+i).join('<br>')+'</p><p>Lv.'+lv()+' · EXP '+s.exp+'</p>',[['ปิด']]);else{const D=s.done,r=(t,o)=>(o?'✔ ':'☐ ')+t;modal('<h2>Quest Journal</h2><p>'+[r('ซ่อมป้ายประกาศ (Code Village)',D.q1),r('ฟื้นฟูหนังสือ (Crystal Library)',D.q2),r('Void Guardian ช่วง 1',D.b1),r('Void Guardian ช่วง 2',D.b2),r('Void Guardian ช่วง 3',D.b3)].join('<br>')+'</p>',[['ปิด']])}}
+function interact(){if($('#dlg').classList.contains('on'))return dnext();if(busy())return;const n=nearNpc();if(n)talk(n)}
+addEventListener('keydown',e=>{const k=e.key.toLowerCase();if(!s||!$('#game').classList.contains('on'))return;
+if(k=='escape'){if($('#ws').classList.contains('on'))closeWS();else if($('#md').classList.contains('on'))closeM();else if($('#dlg').classList.contains('on')){dq=[];dcb=null;$('#dlg').classList.remove('on')}return}
+if(/^(TEXTAREA|INPUT)$/.test(e.target.tagName))return;
+if(k=='e'||(k=='enter'&&$('#dlg').classList.contains('on'))||(k==' '&&$('#dlg').classList.contains('on'))){e.preventDefault();interact();return}
+if((k=='i'||k=='j')){if($('#md').classList.contains('on'))closeM();else if(!busy())panel(k);return}
+if(KM[k]){keys[KM[k]]=1;e.preventDefault()}});
+addEventListener('keyup',e=>{const k=KM[e.key.toLowerCase()];if(k)keys[k]=0});
+addEventListener('blur',()=>keys={});
+$('#dlg').onclick=dnext;
+document.querySelectorAll('#pad button').forEach(b=>{const k=b.dataset.k;b.addEventListener('pointerdown',e=>{e.preventDefault();if(k=='e')interact();else if(k=='i'||k=='j'){if($('#md').classList.contains('on'))closeM();else if(!busy())panel(k)}else keys[k]=1});['pointerup','pointerleave','pointercancel'].forEach(v=>b.addEventListener(v,()=>{keys[k]=0}))});
+$('#bRun').onclick=run;$('#bChk').onclick=check;$('#wx').onclick=closeWS;
+$('#bRes').onclick=()=>{$('#ed').value='';run();$('#lg').innerHTML=''};
+$('#bHint').onclick=()=>{$('#lg').innerHTML='<div style="color:var(--g)">คำใบ้: '+TASKS[cur].h.replace(/</g,'&lt;')+'</div>'};
+$('#bEx').onclick=()=>{$('#ed').value=TASKS[cur].ex;run()};
+$('#ed').addEventListener('keydown',e=>{if(e.key=='Tab'){e.preventDefault();const t=e.target,p=t.selectionStart;t.value=t.value.slice(0,p)+'  '+t.value.slice(t.selectionEnd);t.selectionStart=t.selectionEnd=p+2}});
+$('#eExp').onclick=()=>$('#end').classList.remove('on');
+$('#eTi').onclick=()=>{$('#end').classList.remove('on');save();refreshCont();show('title')};
+refreshCont();requestAnimationFrame(loop);
+</script></body></html>
